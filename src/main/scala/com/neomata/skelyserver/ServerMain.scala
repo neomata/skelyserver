@@ -14,11 +14,12 @@ import com.typesafe.scalalogging.StrictLogging
 import scala.util.Try
 
 object ServerMain extends App with StrictLogging {
-  val host = Try(args(1)).getOrElse("localhost")
-  val port = Try(args(2).toInt).getOrElse(8080)
+  val host = Try(args(0)).getOrElse("localhost")
+  val port = Try(args(1).toInt).getOrElse(8080)
+  val directory = Try(args(2)).getOrElse("")
 
   implicit val system: ActorSystem[Access] = ActorSystem(Basis(), "server")
-  val router = new Router(host, port, "")
+  val router = new Router(host, port, directory)
 
   val bindingFuture = Http().newServerAt(host, port).connectionSource()
 

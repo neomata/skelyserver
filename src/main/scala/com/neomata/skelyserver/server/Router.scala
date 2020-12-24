@@ -8,48 +8,24 @@ import akka.http.scaladsl.server.Route
 import com.neomata.skelyserver.http.html.HtmlCodes
 import com.typesafe.scalalogging.StrictLogging
 
-class Router(host: String, port: Int, var resourceHome: String)(implicit system: ActorSystem[_]) extends StrictLogging {
-  val rh = new ResourceHandler(resourceHome)
+class Router(host: String, port: Int, var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {
+  val rh = new ResourceHandler(directory)
 
   def updateDirectory(path: String): Unit = {
-    resourceHome = path
-    rh.resourceHome = path
+    directory = path
+    rh.directory = path
   }
-
-  def snapshotRoute: Route = get {
-    parameters("device") { device =>
-      complete {
-        HttpResponse(entity = Chunked(
-          MediaTypes.`image/jpeg`, rh.cameraFrame(device.toInt))
-        )
-      }
-    }
-  }
-
-  def cameraRoute: Route = get {
-    parameters("device", "browser") { (device, browser) =>
-      if (!browser.toBoolean) {
-        complete(HttpResponse(entity = Chunked(
-          MediaTypes.`application/octet-stream`, rh.cameraStream(device.toInt))))
-      } else {
-        complete(HttpResponse(entity = HttpEntity(
-          ContentTypes.`text/html(UTF-8)`, HtmlCodes.cameraHtmlScript(host, port, device.toInt)))
-        )
-      }
-    }
-  }
-
 
   def innerRoute(path: String): Route = {
     concat(
       path match {
-        case snapshot if snapshot == "snapshot" => snapshotRoute
-        case camera if camera == "camera" => cameraRoute
+        case file => complete {
+          HttpResponse(entity = HttpEntity.Chunked(MediaTypes.`application/octet-stream`, rh.octetStream(file)))
+        }
       },
       get(complete("File not found"))
     )
   }
 
   val route: Route = path(Segment) { name => innerRoute(name) }
-
 }

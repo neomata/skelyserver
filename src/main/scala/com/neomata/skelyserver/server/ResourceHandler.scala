@@ -6,73 +6,43 @@ import java.nio.file.Paths
 import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.model.HttpEntity.ChunkStreamPart
 import akka.stream.IOResult
-import akka.stream.scaladsl.{FileIO, Source}
+import akka.stream.scaladsl.{FileIO, Keep, Sink, Source}
 import akka.util.ByteString
 import com.neomata.skelyserver.source.live.CameraEntity
+import com.neomata.skelyserver.source.processing.operator.ChunkOperator
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.Future
 
 object ResourceHandler {
-  def apply(resourceHome: String)(implicit system: ActorSystem[_]): ResourceHandler = {
-    new ResourceHandler(resourceHome)(system)
+  def apply(directory: String)(implicit system: ActorSystem[_]): ResourceHandler = {
+    new ResourceHandler(directory)(system)
   }
 }
 
-class ResourceHandler(var resourceHome: String)(implicit system: ActorSystem[_]) {
-  var cameraEntityMap: Map[Int, CameraEntity] = cueAllCameras()
+class ResourceHandler(var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {
 
-  def cameraStream(device: Int): Source[ChunkStreamPart, _] = {
-    cameraEntityMap.get(device) match {
-      case Some(camera) => camera.stream
-      case None =>
-        if (potentialCamera(device)) {
-          cameraEntityMap(device).stream
-        } else {
-          emptyData()
-        }
+  def octetStream(name: String): Source[ChunkStreamPart, _] = {
+    logger.info("Attempting to fetch - {} from directory - {}", name, directory)
+    val fileMap = this.filesInDirectoryMap(directory)
+    fileMap.get(name) match {
+      case Some(value) => FileIO.fromPath(Paths.get(value.getAbsolutePath)).via(ChunkOperator.apply.flow)
+      case None => this.emptyData().via(ChunkOperator.apply.flow)
     }
   }
 
-  def cameraFrame(device: Int): Source[ChunkStreamPart, _] = {
-    cameraEntityMap.get(device) match {
-      case Some(camera) => camera.nextFrame
-      case None =>
-        if (potentialCamera(device)) {
-          cameraEntityMap(device).nextFrame
-        } else {
-          emptyData()
-        }
-    }
+  def filesInDirectoryMap(directory: String): Map[String, File] = {
+    val fileArray = new File(directory).listFiles
+      fileArray
+      .map(_.getAbsolutePath)
+      .map(_.replaceAll("""\\""", "/"))
+      .map(_.reverse)
+      .map(_.takeWhile(_ != '/'))
+      .map(_.reverse)
+      .zip(fileArray).toMap
   }
 
-
-//  def octetStream(fileName: String): Source[ByteString, Future[IOResult]] = {
-//    val fullName = paths(fileName)
-//    val file = new File(s"$videoDirectoryPath/$fullName")
-//
-//    FileIO.fromPath(Paths.get(file.getAbsolutePath))
-//  }
-
-  private def cueAllCameras(deviceIndex: Int = 0): Map[Int, CameraEntity] = {
-    val cc = new CameraEntity(deviceIndex)
-    if (cc.capture.isOpened) {
-      cueAllCameras(deviceIndex + 1) + (deviceIndex -> cc)
-    } else {
-      Nil.toMap
-    }
-  }
-
-  private def potentialCamera(device: Int): Boolean = {
-    val cc = new CameraEntity(device)
-    val canAccess = cc.capture.isOpened
-    if (canAccess) {
-      cameraEntityMap = cameraEntityMap + (device -> cc)
-    }
-    canAccess
-  }
-
-
-  private def emptyData(): Source[ChunkStreamPart, _] = Source.single {
-    ChunkStreamPart(ByteString("Not Available"))
+  private def emptyData() = Source.single {
+    ByteString("Not Available")
   }
 }
