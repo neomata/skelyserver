@@ -12,4 +12,4 @@ libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % akkaVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
-libraryDependencies += "org.bytedeco" % "javacv-platform" % "1.5.4"
+libraryDependencies += "org.bytedeco" % "javacv-platform" % "1.5.3"

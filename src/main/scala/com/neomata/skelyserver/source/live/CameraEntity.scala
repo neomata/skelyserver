@@ -9,17 +9,29 @@ import com.neomata.skelyserver.source.VideoResourceEntity
 import com.neomata.skelyserver.source.processing.operator.{ChunkOperator, FrameSerializer}
 import org.bytedeco.opencv.opencv_core.Mat
 import org.bytedeco.opencv.opencv_videoio.VideoCapture
+import org.bytedeco.javacv.OpenCVFrameGrabber
 
 class CameraEntity(device: Int)(implicit system: ActorSystem[_]) extends VideoResourceEntity {
+  println(s"device: $device")
+  val fg = new OpenCVFrameGrabber(device)
+  println(s"javacv: ${fg.getPixelFormat}")
   val capture = new VideoCapture(device)
+  println("2")
+
   val graph = new CameraSource(capture, device)
+  println("3")
+
   val source: Source[Mat, _] = Source.fromGraph(graph)
+  println("4")
+
 
   val stream: Source[ChunkStreamPart, _] = {
     source.via(FrameSerializer.apply.flow)
       .via(ChunkOperator.apply.flow)
       .toMat(BroadcastHub.sink(1))(Keep.right).run()
   }
+  println("5")
+
 
   def nextFrame: Source[ChunkStreamPart, _] = stream.take(1)
 }

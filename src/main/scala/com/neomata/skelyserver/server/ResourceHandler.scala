@@ -13,22 +13,20 @@ import com.neomata.skelyserver.source.live.CameraEntity
 import scala.concurrent.Future
 
 object ResourceHandler {
-  case class PostMarshal(bytes: ByteString)
+  def apply(resourceHome: String)(implicit system: ActorSystem[_]): ResourceHandler = {
+    new ResourceHandler(resourceHome)(system)
+  }
 }
 
-class ResourceHandler(resourceHome: String)(implicit system: ActorSystem[_]) {
-  protected[this] val videoDirectoryPath: String = s"$resourceHome/videos/"
-  val videoDirectoryFile: File = new File(videoDirectoryPath)
-
-
-  var ccMap: Map[Int, CameraEntity] = cueAllCameras()
+class ResourceHandler(var resourceHome: String)(implicit system: ActorSystem[_]) {
+  var cameraEntityMap: Map[Int, CameraEntity] = cueAllCameras()
 
   def cameraStream(device: Int): Source[ChunkStreamPart, _] = {
-    ccMap.get(device) match {
+    cameraEntityMap.get(device) match {
       case Some(camera) => camera.stream
       case None =>
         if (potentialCamera(device)) {
-          ccMap(device).stream
+          cameraEntityMap(device).stream
         } else {
           emptyData()
         }
@@ -36,11 +34,11 @@ class ResourceHandler(resourceHome: String)(implicit system: ActorSystem[_]) {
   }
 
   def cameraFrame(device: Int): Source[ChunkStreamPart, _] = {
-    ccMap.get(device) match {
+    cameraEntityMap.get(device) match {
       case Some(camera) => camera.nextFrame
       case None =>
         if (potentialCamera(device)) {
-          ccMap(device).nextFrame
+          cameraEntityMap(device).nextFrame
         } else {
           emptyData()
         }
@@ -68,7 +66,7 @@ class ResourceHandler(resourceHome: String)(implicit system: ActorSystem[_]) {
     val cc = new CameraEntity(device)
     val canAccess = cc.capture.isOpened
     if (canAccess) {
-      ccMap = ccMap + (device -> cc)
+      cameraEntityMap = cameraEntityMap + (device -> cc)
     }
     canAccess
   }

@@ -8,10 +8,13 @@ import akka.http.scaladsl.server.Route
 import com.neomata.skelyserver.http.html.HtmlCodes
 import com.typesafe.scalalogging.StrictLogging
 
-class Router(host: String, port: Int, resourceHome: String)(implicit system: ActorSystem[_]) extends StrictLogging {
-  import system.executionContext
-
+class Router(host: String, port: Int, var resourceHome: String)(implicit system: ActorSystem[_]) extends StrictLogging {
   val rh = new ResourceHandler(resourceHome)
+
+  def updateDirectory(path: String): Unit = {
+    resourceHome = path
+    rh.resourceHome = path
+  }
 
   def snapshotRoute: Route = get {
     parameters("device") { device =>
