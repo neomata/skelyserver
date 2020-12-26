@@ -6,10 +6,13 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, MediaTy
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.neomata.skelyserver.http.html.HtmlCodes
+import com.neomata.skelyserver.server.evaluate.SubmissionEvaluator
+import com.neomata.skelyserver.server.evaluate.SubmissionEvaluator.SubmissionParameters
 import com.typesafe.scalalogging.StrictLogging
 
 class Router(host: String, port: Int, var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {
   val rh = new ResourceHandler(directory)
+  val submissionEvaluator = new SubmissionEvaluator
 
   def updateDirectory(path: String): Unit = {
     directory = path
@@ -34,8 +37,11 @@ class Router(host: String, port: Int, var directory: String)(implicit system: Ac
         complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.mainPage)))
       },
       path("submit") {
-        parameters("q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10") { (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) =>
-
+        parameters("q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10") {
+          case (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) =>
+            val sp = SubmissionParameters(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10)
+            val sr = submissionEvaluator.evaluate(sp)
+            complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.resultsPage(sr))))
         }
       }
     )
