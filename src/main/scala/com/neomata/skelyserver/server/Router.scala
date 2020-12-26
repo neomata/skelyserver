@@ -29,8 +29,13 @@ class Router(host: String, port: Int, var directory: String)(implicit system: Ac
 
 //  val route: Route = path(Segment) { name => innerRoute(name) }
   val route: Route = {
-    pathSingleSlash {
-      complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.mainPage)))
-    }
+    concat(
+      pathSingleSlash {
+        complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.mainPage)))
+      },
+      path("submit") {
+        parameters("")
+      }
+    )
   }
 }
