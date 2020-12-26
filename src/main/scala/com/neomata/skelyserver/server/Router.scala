@@ -34,7 +34,9 @@ class Router(host: String, port: Int, var directory: String)(implicit system: Ac
         complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.mainPage)))
       },
       path("submit") {
-        parameters("")
+        parameters("q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10") { (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) =>
+
+        }
       }
     )
   }
