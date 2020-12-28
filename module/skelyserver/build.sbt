@@ -1,10 +1,3 @@
-ThisBuild / organization := "com.neomata"
-
-ThisBuild / scalaVersion := "2.13.4"
-
-ThisBuild / version := "0.1"
-
-
 val akkaVersion = "2.6.10"
 val akkaHttpVersion = "10.2.2"
 
