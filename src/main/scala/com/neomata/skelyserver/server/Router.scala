@@ -13,6 +13,7 @@ import com.typesafe.scalalogging.StrictLogging
 class Router(host: String, port: Int, var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {
   val rh = new ResourceHandler(directory)
   val submissionEvaluator = new SubmissionEvaluator
+  var submissions = 17
 
   def updateDirectory(path: String): Unit = {
     directory = path
@@ -41,6 +42,8 @@ class Router(host: String, port: Int, var directory: String)(implicit system: Ac
           case (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) =>
             val sp = SubmissionParameters(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10)
             val sr = submissionEvaluator.evaluate(sp)
+            submissions = submissions + 1
+            logger.info(s"Submissions: $submissions")
             complete(HttpResponse(entity = HttpEntity(ContentTypes.`text/html(UTF-8)`, HtmlCodes.resultsPage(sr))))
         }
       }

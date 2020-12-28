@@ -31,7 +31,8 @@ object HtmlCodes {
        |    <body>
        |        <form action="/submit">
        |            <div>
-       |                <h1>Decimoto - Level Evaluator</h1>
+       |                <h1>Decimoto</h1>
+       |                <h2>Power Level Evaluator</h2>
        |            </div>
        |            <div>
        |                <h4>1. You're on the phone with a criminal who holds your friend hostage and will kill them in 10 minutes, you will: </h4>
@@ -40,7 +41,7 @@ object HtmlCodes {
        |                <p><input type="radio" name="q1" value="Comply">Give them what they ask for; my friend's safety is most important</p>
        |            </div>
        |            <div>
-       |                <h4>2. If a baby is power level: 1 and the strongest person is power level: 100, my power level is: </h4>
+       |                <h4>2. Males: If a baby is power level: 1 and the strongest person is power level: 100, my power level is: <br>Females: If person A is beauty level: 1 and the person B is beauty level: 100, my beauty level is: </h4>
        |                <input type="number" name="q2" value="1">
        |            </div>
        |            <div>
@@ -52,7 +53,7 @@ object HtmlCodes {
        |                <p><input type="radio" name="q3" value="X">X</p>
        |            </div>
        |            <div>
-       |                <h4>4. Average mile time (MM:SS): </h4>
+       |                <h4>4. Fastest mile-run time (MM:SS): </h4>
        |                <input type="text" name="q4" id="q4">
        |            </div>
        |            <div>
@@ -60,7 +61,7 @@ object HtmlCodes {
        |                <input type="number" name="q5" id="q5">
        |            </div>
        |            <div>
-       |                <h4>6. Estimate 400m run as a whole number in seconds: </h4>
+       |                <h4>6. Fastest 400 meter run time as a whole number in seconds: </h4>
        |                <input type="number" name="q6">
        |            </div>
        |            <div>
@@ -73,9 +74,9 @@ object HtmlCodes {
        |            <div>
        |                <h4>8. Mob Boss over the phone: So you da one I been hearin\' about...da one causing me all this trouble. I lost 3 million because of you...you killed my buddy Robby...with a icepick for God sake. You're gonna pay for what you've done..ya hear me? </h4>
        |                <p><input type="radio" name="q8" value="Intimidation">Do what you gotta do but if you come after me, dont't fail, cause I won't when I'm comin' for you... </p>
-       |                <p><input type="radio" name="q8" value="Logos">You're a smart guy. The details just don't add up, I couldn't be the killer. Isn't it obvious one of your men did it, Joey you know the way he felt about Robby</p>
+       |                <p><input type="radio" name="q8" value="Logos">I couldn't be the killer, the details just don't add up. You're a smart guy; isn't it obvious one of your men did it, Joey you know the way he felt about Robby</p>
        |                <p><input type="radio" name="q8" value="Pathos">I know you loved Robby, and I'm sorry that he went that way...but it wasn't me I have a family...kids. Its them who I care about.</p>
-       |                <p><input type="radio" name="q8" value="Ethos">Me and you..we're the same. Two people with a lot of money and even more responsibility. I don't know who you think I am, but I'm working too hard to meddle in that kind of stuff.</p>
+       |                <p><input type="radio" name="q8" value="Ethos">Me and you..we're the same. Two people with a lot of money and even more responsibility. I've been in the game for too long; I know not to cross that line.</p>
        |            </div>
        |            <div>
        |                <h4>9. Hold your breath, how long in whole seconds?: </h4>
@@ -84,7 +85,7 @@ object HtmlCodes {
        |            <h4>10. This question measures your ability to make quick decisions. You get 30 seconds to read the question and answer. The quiz will be autosubmitted after the timer so do this question last.</h4>
        |            <input type="button" name="toggler" value="Open" onclick="toggleQuestion10()">
        |            <div id="toggle" style="color:white">
-       |                <h5>You are exploring through a muddy, malevolent, monster-ridden dungeon to loot for treasure that will improve your gear. You collapse and fall through an time-battered bridge into a pitch-black pit. You hear distant monster snarls getting louder and louder with each passing second. Your're heart is beating a maximum frequency and are petrified with a sensation of impending doom. Moments later you find yourself surrounded by a group of monsters, who will soon going to find you and eat you alive, what should I do?: </h4>
+       |                <h5>You are exploring through a muddy, malevolent, monster-ridden dungeon to loot for treasure that will improve your gear. You collapse and fall through an time-battered bridge into a dark pit. You hear distant monster snarls getting louder and louder with each passing second. Your're heart is beating a maximum frequency and are petrified with a sensation of impending doom. Moments later you find yourself surrounded by a group of monsters, who will soon find you and eat you alive, what should I do?: </h4>
        |                <p><input type="radio" name="q10" value="Time">Throw your only knife at the pit wall to distract the monsters and buy you more time.</p>
        |                <p><input type="radio" name="q10" value="Torch">Take your lighter and ignite a wooden stick next to you to scare off the dungeon monsters with fire</p>
        |                <p><input type="radio" name="q10" value="Offense">Bee-line for the exit and use knife for any monster in my way</p>
@@ -117,7 +118,9 @@ object HtmlCodes {
        |        <title>Results</title>
        |    </head>
        |    <body>
-       |      <h1>Results - Level: ${sr.level}</h1>
+       |      <h1>Results</h1>
+       |      <br>
+       |      <h2>Level: ${sr.level}</h2>
        |      <h3>${sr.score} / 1000</h3>
        |      <br>
        |      <a href="http://decimoto.com/">
