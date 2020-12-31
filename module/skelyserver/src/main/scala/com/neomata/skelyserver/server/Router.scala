@@ -5,9 +5,9 @@ import akka.http.scaladsl.model.HttpEntity.{ChunkStreamPart, Chunked}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpResponse, MediaTypes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.neomata.skelyserver.http.html.HtmlCodes
-import com.neomata.skelyserver.server.evaluate.SubmissionEvaluator
-import com.neomata.skelyserver.server.evaluate.SubmissionEvaluator.SubmissionParameters
+import com.neomata.pages.http.html.HtmlCodes
+import com.neomata.pages.tasker.evaluate.SubmissionEvaluator
+import com.neomata.pages.tasker.evaluate.SubmissionEvaluator.SubmissionParameters
 import com.typesafe.scalalogging.StrictLogging
 
 class Router(host: String, port: Int, var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {

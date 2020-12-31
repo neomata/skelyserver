@@ -3,7 +3,7 @@ package com.neomata.skelyserver
 import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.scaladsl.Sink
-import com.neomata.skelyserver.relay.Access.Access
+import com.neomata.skelyserver.relay.Access
 import com.neomata.skelyserver.relay.Basis
 import com.neomata.skelyserver.server.Router
 import com.typesafe.scalalogging.StrictLogging
@@ -14,6 +14,7 @@ object ServerMain extends App with StrictLogging {
   val host = Try(args(0)).getOrElse("localhost")
   val port = Try(args(1).toInt).getOrElse(8080)
   val directory = Try(args(2)).getOrElse("")
+  logger.info("Hosting at {}:{}", host, port)
 
   implicit val system: ActorSystem[Access] = ActorSystem(Basis(), "server")
   val router = new Router(host, port, directory)

@@ -1,4 +1,4 @@
-package com.neomata.skelyserver.server.evaluate
+package com.neomata.pages.tasker.evaluate
 
 object SubmissionEvaluator {
   case class SubmissionParameters(
@@ -42,6 +42,7 @@ class SubmissionEvaluator {
       case stall if stall == "Stall" => 100
       case refuse if refuse == "Refuse" => 50
       case comply if comply == "Comply" => 50
+      case storm if storm == "Storm" => 30
     }
 
     val q2 = sp.q2.toInt match {
@@ -77,7 +78,7 @@ class SubmissionEvaluator {
         } else {
           val range = 900 - 390
           val ratio = (total - 390).toDouble / range
-          math.abs(ratio - 100)
+          math.abs(ratio * 100)
         }
     }
 

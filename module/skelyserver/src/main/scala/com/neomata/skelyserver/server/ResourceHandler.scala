@@ -27,7 +27,7 @@ class ResourceHandler(var directory: String)(implicit system: ActorSystem[_]) ex
     }
   }
 
-  def filesInDirectoryMap(directory: String): Map[String, File] = {
+  private def filesInDirectoryMap(directory: String): Map[String, File] = {
     val fileArray = new File(directory).listFiles
       fileArray
       .map(_.getAbsolutePath)
@@ -37,6 +37,8 @@ class ResourceHandler(var directory: String)(implicit system: ActorSystem[_]) ex
       .map(_.reverse)
       .zip(fileArray).toMap
   }
+
+
 
   private def emptyData() = Source.single {
     ByteString("Not Available")

@@ -1,6 +1,6 @@
-package com.neomata.skelyserver.http.html
+package com.neomata.pages.http.html
 
-import com.neomata.skelyserver.server.evaluate.SubmissionEvaluator.SubmissionResults
+import com.neomata.pages.tasker.evaluate.SubmissionEvaluator.SubmissionResults
 
 object HtmlCodes {
   def cameraHtmlScript(host: String, port: Int, num: Int): String = {

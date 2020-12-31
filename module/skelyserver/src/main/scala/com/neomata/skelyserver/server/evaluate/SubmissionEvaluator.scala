@@ -16,20 +16,20 @@ object SubmissionEvaluator {
 
   case class SubmissionResults(score: Double) {
     val level: String = score match {
-      case absolutionist if absolutionist > 950 => "Absolutionist"
-      case transcendent if transcendent > 900 && transcendent <= 950 => "Transcendent"
-      case glorious if glorious > 850 && glorious <= 900 => "Glorious"
-      case guru if guru > 800 && guru <= 850 => "Guru"
-      case incomparable if incomparable > 750 && incomparable <= 800 => "Incomparable"
-      case competent if competent > 700 && competent <= 750 => "Competent"
-      case sufficient if sufficient > 650 && sufficient <= 700 => "Sufficient"
-      case decent if decent > 600 && decent <= 650 => "Decent"
-      case suitable if suitable > 550 && suitable <= 600 => "Suitable"
-      case enough if enough > 500 && enough <= 550 => "Enough"
-      case ignorable if ignorable > 450 && ignorable <= 500 => "Ignorable"
-      case runt if runt > 350 && runt <= 450 => "Runt"
-      case pathetic if pathetic >= 200 && pathetic <= 350 => "Pathetic"
-      case atrocious if atrocious < 200 => "Atrocious"
+      case absolutionist    if absolutionist > 950 =>                       "Absolutionist"
+      case transcendent     if transcendent > 900 && transcendent <= 950 => "Transcendent"
+      case glorious         if glorious > 850 && glorious <= 900 =>         "Glorious"
+      case guru             if guru > 800 && guru <= 850 =>                 "Guru"
+      case incomparable     if incomparable > 750 && incomparable <= 800 => "Incomparable"
+      case competent        if competent > 700 && competent <= 750 =>       "Competent"
+      case sufficient       if sufficient > 650 && sufficient <= 700 =>     "Sufficient"
+      case decent           if decent > 600 && decent <= 650 =>             "Decent"
+      case suitable         if suitable > 550 && suitable <= 600 =>         "Suitable"
+      case enough           if enough > 500 && enough <= 550 =>             "Enough"
+      case ignorable        if ignorable > 450 && ignorable <= 500 =>       "Ignorable"
+      case runt             if runt > 350 && runt <= 450 =>                 "Runt"
+      case pathetic         if pathetic >= 200 && pathetic <= 350 =>        "Pathetic"
+      case atrocious        if atrocious < 200 =>                           "Atrocious"
     }
   }
 }

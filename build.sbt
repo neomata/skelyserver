@@ -5,12 +5,14 @@ ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / version := "0.1"
 
 
-val akkaVersion = "2.6.10"
-val akkaHttpVersion = "10.2.2"
+lazy val skelyserver = project.in(file("module/skelyserver"))
+  .aggregate(pages)
+  .dependsOn(pages)
+  .settings(
+    name := "skelyserver"
+  )
 
-libraryDependencies += "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion
-libraryDependencies += "com.typesafe.akka" %% "akka-stream-typed" % akkaVersion
-libraryDependencies += "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
-libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
-libraryDependencies += "org.bytedeco" % "javacv-platform" % "1.5.3"
+lazy val pages = project.in(file("module/pages"))
+  .settings(
+    name := "pages"
+  )
