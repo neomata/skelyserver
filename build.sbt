@@ -6,13 +6,13 @@ ThisBuild / version := "0.1"
 
 
 lazy val skelyserver = project.in(file("module/skelyserver"))
-  .aggregate(pages)
-  .dependsOn(pages)
   .settings(
     name := "skelyserver"
   )
 
 lazy val pages = project.in(file("module/pages"))
+  .aggregate(skelyserver)
+  .dependsOn(skelyserver)
   .settings(
     name := "pages"
   )

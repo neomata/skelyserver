@@ -1,4 +1,4 @@
-package com.neomata.pages.tasker.evaluate
+package com.neomata.pages.task.evaluate
 
 object SubmissionEvaluator {
   case class SubmissionParameters(
@@ -43,6 +43,7 @@ class SubmissionEvaluator {
       case refuse if refuse == "Refuse" => 50
       case comply if comply == "Comply" => 50
       case storm if storm == "Storm" => 30
+      case _ => 0
     }
 
     val q2 = sp.q2.toInt match {
@@ -53,6 +54,7 @@ class SubmissionEvaluator {
       case doubtful if doubtful < 0 => 0D
       case humble if humble < 70 =>
         (humble.toDouble / 70) * 100
+      case _ => 0
     }
 
     val q3 = sp.q3 match {
@@ -61,6 +63,7 @@ class SubmissionEvaluator {
       case u if u == "U" => 100
       case t if t == "T" => 100
       case x if x == "X" => 60
+      case _ => 0
     }
 
     val q4 = sp.q4 match {
@@ -80,18 +83,21 @@ class SubmissionEvaluator {
           val ratio = (total - 390).toDouble / range
           math.abs(ratio * 100)
         }
+      case _ => 0
     }
 
     val q5 = sp.q5.toInt match {
       case almighty if almighty >= 50 => 100
       case weakling if weakling < 0 => 0
       case average => average * 2
+      case _ => 0
     }
 
     val q6 = sp.q6.toDouble match {
       case time if time <= 45.0 => 100
       case time if time > 145.0 => 0
       case time => (45.0 - time) + 100
+      case _ => 0
     }
 
     val q7 = sp.q7 match {
@@ -99,6 +105,7 @@ class SubmissionEvaluator {
       case aware if aware == "Aware" => 100
       case intel if intel == "Intelligent" => 75
       case optimistic if optimistic == "Optimistic" => 65
+      case _ => 0
     }
 
     val q8 = sp.q8 match {
@@ -106,12 +113,14 @@ class SubmissionEvaluator {
       case logos if logos == "Logos" => 35
       case pathos if pathos == "Pathos" => 35
       case ethos if ethos == "Ethos" => 100
+      case _ => 0
     }
 
     val q9 = sp.q9.toDouble match {
       case time if time >= 90.0 => 100
       case time if time < 30 => 0
-      case time => (time / 60) * 100
+      case time => math.abs(((90 - time) / (90 - 30)) * 100 - 100)
+      case _ => 0
     }
 
     val `speed & strength` = q5 + q6
