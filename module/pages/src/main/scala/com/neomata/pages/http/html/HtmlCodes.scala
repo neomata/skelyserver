@@ -130,4 +130,151 @@ object HtmlCodes {
        |    </body>
        |</html>""".stripMargin
   }
+
+  def heartCrest: String = {
+    s"""<!DOCTYPE html>
+       |<html lang="en">
+       |    <head>
+       |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+       |        <title>HeartCrest</title>
+       |    </head>
+       |    <body id="body" style="margin: auto">
+       |      <h1>Happy Valentine's Day</h1>
+       |      <br>
+       |      <h2>Answer these trivia questions to get prizes!<h2>
+       |      <br>
+       |      <a href="http://192.168.0.119:80/question1">
+       |        <button>Next</button>
+       |      </a>
+       |    </body>
+       |</html>""".stripMargin
+  }
+
+  def heartQuestion1: String =  {
+    s"""<!DOCTYPE html>
+       |<html lang="en">
+       |    <head>
+       |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+       |        <title>HeartCrest</title>
+       |    </head>
+       |    <body id="body" style="margin: auto">
+       |      <form action="/submit1">
+       |         <h4>1. Bishop loves you 1,000,000 out of: </h4>
+       |                <p><input type="radio" name="q" value="1">100</p>
+       |                <p><input type="radio" name="q" value="1">1,000,000</p>
+       |                <p><input type="radio" name="q" value="1">1</p>
+       |                <p><input type="radio" name="q" value="1">1,000</p>
+       |         <div>
+       |           <input type="submit" id="submit" value="Submit">
+       |         </div>
+       |      </form>
+       |      <br>
+       |    </body>
+       |</html>""".stripMargin
+  }
+
+  def heartQuestion2: String =  {
+    s"""<!DOCTYPE html>
+       |<html lang="en">
+       |    <head>
+       |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+       |        <title>HeartCrest</title>
+       |    </head>
+       |    <body id="body" style="margin: auto">
+       |      <form action="/submit1">
+       |         <h4>2. Where should we vacation next? </h4>
+       |           <p><input type="radio" name="q" value="2">Antarctica</p>
+       |           <p><input type="radio" name="q" value="2">Russia</p>
+       |           <p><input type="radio" name="q" value="2">Mexico</p>
+       |           <p><input type="radio" name="q" value="2">Bahamas</p>
+       |         <div>
+       |           <input type="submit" id="submit" value="Submit">
+       |         </div>
+       |      </form>
+       |      <br>
+       |    </body>
+       |</html>""".stripMargin
+  }
+
+  def heartQuestion3: String =  {
+    s"""<!DOCTYPE html>
+       |<html lang="en">
+       |    <head>
+       |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+       |        <title>HeartCrest</title>
+       |    </head>
+       |    <body id="body" style="margin: auto">
+       |      <form action="/submit1">
+       |         <h4>3. :D </h4>
+       |                <p><input type="radio" name="q" value="3">:)</p>
+       |                <p><input type="radio" name="q" value="3">:P</p>
+       |                <p><input type="radio" name="q" value="3">:D</p>
+       |                <p><input type="radio" name="q" value="3">:O</p>
+       |         <div>
+       |           <input type="submit" id="submit" value="Submit">
+       |         </div>
+       |      </form>
+       |      <br>
+       |    </body>
+       |</html>""".stripMargin
+  }
+
+  def heartQuestion4: String =  {
+    s"""<!DOCTYPE html>
+       |<html lang="en">
+       |    <head>
+       |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+       |        <title>HeartCrest</title>
+       |    </head>
+       |    <body id="body" style="margin: auto">
+       |      <form action="/submit1">
+       |         <h4>4. Who is your favorite living being here? </h4>
+       |           <p><input type="radio" name="q" value="4">Myself</p>
+       |           <p><input type="radio" name="q" value="4">My husband</p>
+       |           <p><input type="radio" name="q" value="4">My puppy</p>
+       |           <p><input type="radio" name="q" value="4">All of the above</p>
+       |
+       |        <div>
+       |          <input type="submit" id="submit" value="Submit">
+       |        </div></form>
+       |      <br>
+       |    </body>
+       |</html>""".stripMargin
+  }
+
+  def heartAnswerTemplate(num: Int): String = {
+    val message = num match {
+      case 1 => "Correct, you will find your prize where you study and (sometimes) eat."
+      case 2 => "Correct, you will find your prize where you put things to get cold."
+      case 3 => "Correct, you will find your prize where your mom and dad's picture is."
+      case 4 => "Correct, you will find your prize with your husband!"
+      case 5 => "Happy Valentine's, will you be mine?"
+    }
+
+    val next = num match {
+      case 1 => 2
+      case 2 => 3
+      case 3 => 4
+      case 4 => 5
+      case 5 => 1
+    }
+
+    val release =
+      s"""<!DOCTYPE html>
+        |<html lang="en">
+        |    <head>
+        |        <meta name="viewport" content="width=device-width, minimum-scale=0.1">
+        |        <title>HeartCrest</title>
+        |    </head>
+        |    <body id="body" style="margin: auto">
+        |      <h3>$message</h3>
+        |      <br>
+        |      <a href="http://192.168.0.119:80/question$next">
+        |        <button>Next</button>
+        |      </a>
+        |    </body>
+        |</html>""".stripMargin
+
+    release
+  }
 }

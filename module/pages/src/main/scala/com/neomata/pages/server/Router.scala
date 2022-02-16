@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import com.neomata.pages.http.html.HtmlCodes
 import com.neomata.pages.task.evaluate.SubmissionEvaluator
 import com.neomata.pages.task.evaluate.SubmissionEvaluator.SubmissionParameters
-import com.neomata.skelyserver.server.SkelyRouter
+//import com.neomata.skelyserver.server.SkelyRouter
 import com.typesafe.scalalogging.StrictLogging
 
 class Router(host: String, port: Int)(implicit system: ActorSystem[_]) extends SkelyRouter with StrictLogging {

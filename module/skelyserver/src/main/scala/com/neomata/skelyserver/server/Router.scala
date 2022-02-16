@@ -7,10 +7,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import com.typesafe.scalalogging.StrictLogging
 
-trait SkelyRouter {
-  def route(remoteAddress: RemoteAddress): Route
-}
-
 class Router(host: String, port: Int, var directory: String)(implicit system: ActorSystem[_]) extends SkelyRouter with StrictLogging {
   val rh = new ResourceHandler(directory)
   var submissions = 20

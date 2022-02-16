@@ -18,6 +18,7 @@ object ResourceHandler {
 }
 
 class ResourceHandler(var directory: String)(implicit system: ActorSystem[_]) extends StrictLogging {
+  logger.info("Directory - {}",  directory)
 
   def fetchFile(name: String, remoteAddress: RemoteAddress): Source[ChunkStreamPart, _] = {
     logger.info("{} is fetching - {} from directory - {}", remoteAddress.toIP, name, directory)

@@ -16,3 +16,10 @@ lazy val pages = project.in(file("module/pages"))
   .settings(
     name := "pages"
   )
+
+lazy val heartCrest = project.in(file("module/heartCrest"))
+  .aggregate(skelyserver, pages)
+  .dependsOn(skelyserver, pages)
+  .settings(
+    name := "heartCrest"
+  )
